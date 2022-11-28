@@ -1,0 +1,3 @@
+# 项目排除路径
+/tags-up/target/
+/tags-web/target/

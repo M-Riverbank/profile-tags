@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="5e4febab-4678-4620-9e17-d49655d33a9d" name="bigdata-cdh01.itcast.cn">
+        <fileTransfer accessType="SFTP" host="bigdata-cdh01.itcast.cn" port="22" sshConfigId="7336b8d7-ab66-474c-bb57-4cc21a19515d" sshConfig="root@bigdata-cdh01.itcast.cn:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
