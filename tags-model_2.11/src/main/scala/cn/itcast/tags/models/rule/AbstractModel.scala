@@ -3,10 +3,9 @@ package cn.itcast.tags.models.rule
 import cn.itcast.tags.config.ModelConfig
 import cn.itcast.tags.meta.HBaseMeta
 import cn.itcast.tags.models.ModelType
-import cn.itcast.tags.tools.HBaseTools
 import cn.itcast.tags.utils.SparkUtils
 import org.apache.spark.internal.Logging
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 import org.apache.spark.storage.StorageLevel
 
 abstract class AbstractModel(modelName: String, modelType: ModelType) extends Logging {
@@ -68,14 +67,15 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
       //封装标签规则中数据源的信息至HBaseMeta对象中
       val hbaseMeta: HBaseMeta = HBaseMeta.getHBaseMeta(tagRuleMap)
       //从Hbase表加载数据
-      businessDF = HBaseTools.read(
-        spark,
-        hbaseMeta.zkHosts,
-        hbaseMeta.zkPort,
-        hbaseMeta.hbaseTable,
-        hbaseMeta.family,
-        hbaseMeta.selectFieldNames.split(",")
-      )
+      businessDF = spark.read
+        .format("hbase")
+        .option("zkHosts", hbaseMeta.zkHosts)
+        .option("zkPort", hbaseMeta.zkPort)
+        .option("hbaseTable", hbaseMeta.hbaseTable)
+        .option("family", hbaseMeta.family)
+        .option("selectFields", hbaseMeta.selectFieldNames)
+        .load()
+
     } else {
       new RuntimeException("业务标签未提供数据源信息，获取不到业务数据，无法计算标签")
     }
@@ -99,15 +99,16 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
    */
   def saveTag(modelDF: DataFrame): Unit = {
     if (modelDF != null)
-      HBaseTools
-        .write(
-          modelDF,
-          ModelConfig.PROFILE_TABLE_ZK_HOSTS,
-          ModelConfig.PROFILE_TABLE_ZK_PORT,
-          ModelConfig.PROFILE_TABLE_NAME,
-          ModelConfig.PROFILE_TABLE_FAMILY_USER,
-          ModelConfig.PROFILE_TABLE_ROWKEY_COL
-        )
+      modelDF.write
+        .mode(SaveMode.Overwrite)
+        .format("hbase")
+        .option("zkHosts", ModelConfig.PROFILE_TABLE_ZK_HOSTS)
+        .option("zkPort", ModelConfig.PROFILE_TABLE_ZK_PORT)
+        .option("hbaseTable", ModelConfig.PROFILE_TABLE_NAME)
+        .option("family", ModelConfig.PROFILE_TABLE_FAMILY_USER)
+        .option("rowKeyColumn", ModelConfig.PROFILE_TABLE_ROWKEY_COL)
+        .save()
+
   }
 
   /**
