@@ -98,7 +98,7 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
    * @param modelDF 需要进行保存的打完标签的数据
    */
   def saveTag(modelDF: DataFrame): Unit = {
-    if(modelDF!=null)
+    if (modelDF != null)
       HBaseTools
         .write(
           modelDF,
