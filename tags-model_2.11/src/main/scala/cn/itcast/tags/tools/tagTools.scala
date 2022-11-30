@@ -8,7 +8,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 /**
  * 针对标签进行相关操作工具类
  */
-object tagTools extends Logging{
+object tagTools extends Logging {
 
   /**
    * 将[属性标签(5级标签)]数据中[规则：rule与名称：name]转换为[Map集合]
@@ -62,5 +62,38 @@ object tagTools extends Logging{
       )
     // 5. 返回计算标签数据
     modelDF
+  }
+
+  /**
+   * 将标签数据中属性标签规则rule拆分为范围: start, end
+   *
+   * @param tagDF 标签数据
+   * @return 数据集DataFrame
+   */
+  def convertTuple(tagDF: DataFrame): DataFrame = {
+    // 导入隐式转换和函数库
+    import org.apache.spark.sql.functions._
+    import tagDF.sparkSession.implicits._
+    //1.自定义udf函数,解析属性标签规则rule
+    val rule_to_tuple: UserDefinedFunction = udf(
+      (rule: String) => {
+        val Array(start, end) = rule.trim.split("-").map(_.toInt)
+        (start, end)
+      }
+    )
+
+    //2.针对属性标签数据中的规则rule使用UDF函数，提取start与end并返回数据
+    tagDF
+      .filter($"level" === 5) // 5级标签
+      .select(
+        $"name",
+        rule_to_tuple($"rule").as("rules")
+      )
+      // 获取起始start和结束end
+      .select(
+        $"name",
+        $"rules._1".as("start"),
+        $"rules._2".as("end")
+      )
   }
 }
