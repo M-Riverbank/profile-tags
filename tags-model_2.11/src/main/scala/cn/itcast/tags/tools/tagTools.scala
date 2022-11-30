@@ -1,5 +1,6 @@
 package cn.itcast.tags.tools
 
+import org.apache.spark.internal.Logging
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SparkSession}
@@ -7,13 +8,13 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 /**
  * 针对标签进行相关操作工具类
  */
-object tagTools {
+object tagTools extends Logging{
 
   /**
    * 将[属性标签(5级标签)]数据中[规则：rule与名称：name]转换为[Map集合]
    *
    * @param tagDF 属性标签数据
-   * @return Map 集合
+   * @return Map[String,String] 集合
    */
   private def convertMap(tagDF: DataFrame): Map[String, String] = {
     import tagDF.sparkSession.implicits._

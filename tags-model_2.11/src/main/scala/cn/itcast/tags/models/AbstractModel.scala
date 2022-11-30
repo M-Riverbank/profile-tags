@@ -1,8 +1,7 @@
-package cn.itcast.tags.models.rule
+package cn.itcast.tags.models
 
 import cn.itcast.tags.config.ModelConfig
 import cn.itcast.tags.meta.HBaseMeta
-import cn.itcast.tags.models.ModelType
 import cn.itcast.tags.utils.SparkUtils
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
@@ -12,7 +11,6 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
   // 设置Spark应用程序运行的用户：root, 默认情况下为当前系统用户
   System.setProperty("user.name", ModelConfig.FS_USER)
   System.setProperty("HADOOP_USER_NAME", ModelConfig.FS_USER)
-  // 变量声明
   // 变量声明
   var spark: SparkSession = _
 
@@ -75,7 +73,6 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
         .option("family", hbaseMeta.family)
         .option("selectFields", hbaseMeta.selectFieldNames)
         .load()
-
     } else {
       new RuntimeException("业务标签未提供数据源信息，获取不到业务数据，无法计算标签")
     }
@@ -108,7 +105,6 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
         .option("family", ModelConfig.PROFILE_TABLE_FAMILY_USER)
         .option("rowKeyColumn", ModelConfig.PROFILE_TABLE_ROWKEY_COL)
         .save()
-
   }
 
   /**

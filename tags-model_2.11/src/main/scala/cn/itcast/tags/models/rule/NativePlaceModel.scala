@@ -6,19 +6,18 @@ import org.apache.spark.sql.DataFrame
 
 
 /**
- * 标签模型应用开发:用户职业标签
+ * 标签模型开发：籍贯标签模型
  */
-class JobModel extends
-  AbstractModel("职业标签", ModelType.MATCH) {
+class NativePlaceModel extends AbstractModel("籍贯标签", ModelType.MATCH) {
   /*
-    317   职业
-        318   学生      1
-        319   公务员     2
-        320   军人      3
-        321   警察      4
-        322   教师      5
-        323   白领      6
- */
+    342   籍贯标签
+        343   北京    北京
+        344   上海    上海
+        345   广州    广州
+        346   深圳    深圳
+        347   杭州    杭州
+        348   苏州    苏州
+   */
 
   /**
    * 4. 构建标签：依据业务数据和属性标签数据建立标签
@@ -28,12 +27,12 @@ class JobModel extends
    * @return 打完标签的数据
    */
   override def doTag(businessDF: DataFrame, tagDF: DataFrame): DataFrame = {
-    tagTools.ruleMatchTag(businessDF, "job", tagDF)
+    tagTools.ruleMatchTag(businessDF, "nativePlace", tagDF)
   }
 }
 
-object JobModel {
+object NativePlaceModel {
   def main(args: Array[String]): Unit = {
-    new JobModel().executeModel(317)
+    new NativePlaceModel().executeModel(342)
   }
 }

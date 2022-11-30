@@ -1,6 +1,6 @@
 package cn.itcast.tags.models.rule
 
-import cn.itcast.tags.models.ModelType
+import cn.itcast.tags.models.{AbstractModel, ModelType}
 import cn.itcast.tags.tools.tagTools
 import org.apache.spark.sql.DataFrame
 

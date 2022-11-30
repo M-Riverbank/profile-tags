@@ -4,20 +4,19 @@ import cn.itcast.tags.models.{AbstractModel, ModelType}
 import cn.itcast.tags.tools.tagTools
 import org.apache.spark.sql.DataFrame
 
-
 /**
- * 标签模型应用开发:用户职业标签
+ * 标签模型开发：民族标签模型
  */
-class JobModel extends
-  AbstractModel("职业标签", ModelType.MATCH) {
-  /*
-    317   职业
-        318   学生      1
-        319   公务员     2
-        320   军人      3
-        321   警察      4
-        322   教师      5
-        323   白领      6
+class  NationModel extends AbstractModel("民族标签",ModelType.MATCH){
+/*
+    334 民族
+        335 汉族      0
+        336 蒙古族    1
+        337 回族      2
+        338 藏族      3
+        339 维吾尔族   4
+        340 苗族      5
+        341 满族      6
  */
 
   /**
@@ -28,12 +27,12 @@ class JobModel extends
    * @return 打完标签的数据
    */
   override def doTag(businessDF: DataFrame, tagDF: DataFrame): DataFrame = {
-    tagTools.ruleMatchTag(businessDF, "job", tagDF)
+    tagTools.ruleMatchTag(businessDF,"nation",tagDF)
   }
 }
 
-object JobModel {
+object NationModel {
   def main(args: Array[String]): Unit = {
-    new JobModel().executeModel(317)
+    new NationModel().executeModel(334)
   }
 }

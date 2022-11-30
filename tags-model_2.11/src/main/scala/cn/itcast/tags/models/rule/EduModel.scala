@@ -6,19 +6,19 @@ import org.apache.spark.sql.DataFrame
 
 
 /**
- * 标签模型应用开发:用户职业标签
+ * 标签模型开发：学历标签模型
  */
-class JobModel extends
-  AbstractModel("职业标签", ModelType.MATCH) {
+class  EduModel extends AbstractModel("学历标签",ModelType.MATCH){
   /*
-    317   职业
-        318   学生      1
-        319   公务员     2
-        320   军人      3
-        321   警察      4
-        322   教师      5
-        323   白领      6
- */
+    353   学历
+        354   小学    小学
+        355   初中    初中
+        356   高中    高中
+        357   大专    大专
+        358   本科    本科
+        359   研究生   研究生
+        360   博士    博士
+   */
 
   /**
    * 4. 构建标签：依据业务数据和属性标签数据建立标签
@@ -28,12 +28,12 @@ class JobModel extends
    * @return 打完标签的数据
    */
   override def doTag(businessDF: DataFrame, tagDF: DataFrame): DataFrame = {
-    tagTools.ruleMatchTag(businessDF, "job", tagDF)
+    tagTools.ruleMatchTag(businessDF,"edu",tagDF)
   }
 }
 
-object JobModel {
+object EduModel {
   def main(args: Array[String]): Unit = {
-    new JobModel().executeModel(317)
+    new EduModel().executeModel(353)
   }
 }

@@ -41,7 +41,7 @@ class DefaultSource extends RelationProvider
     )
     // 2. 创建HBaseRelation对象
     val relation = HBaseRelation(sqlContext, parameters, schema)
-    // 3. 返回对
+    // 3. 返回对象
     relation
   }
 
