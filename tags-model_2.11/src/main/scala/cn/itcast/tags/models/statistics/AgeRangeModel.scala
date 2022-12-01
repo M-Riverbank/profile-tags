@@ -3,8 +3,7 @@ package cn.itcast.tags.models.statistics
 import cn.itcast.tags.models.{AbstractModel, ModelType}
 import cn.itcast.tags.tools.tagTools
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{regexp_replace, udf}
+import org.apache.spark.sql.functions.regexp_replace
 import org.apache.spark.sql.types.IntegerType
 
 /**
@@ -28,11 +27,11 @@ class AgeRangeModel extends AbstractModel("年龄段标签", ModelType.STATISTIC
    *
    * @param businessDF 需要进行处理的业务数据
    * @param tagDF      标签数据，其中包含4级与5级标签的name与rule
-   *                   root
-   *                   |-- id: long (nullable = false)
-   *                   |-- name: string (nullable = true)
-   *                   |-- rule: string (nullable = true)
-   *                   |-- level: integer (nullable = true)
+   *   root
+   *     |-- id: long (nullable = false)
+   *     |-- name: string (nullable = true)
+   *     |-- rule: string (nullable = true)
+   *     |-- level: integer (nullable = true)
    * @return 打完标签的数据
    */
   override def doTag(businessDF: DataFrame, tagDF: DataFrame): DataFrame = {

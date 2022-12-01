@@ -1,9 +1,9 @@
 package cn.itcast.tags.text.sql
 
 import cn.itcast.tags.utils.SparkUtils
+import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
-import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object SQLUdfTest {
   def main(args: Array[String]): Unit = {

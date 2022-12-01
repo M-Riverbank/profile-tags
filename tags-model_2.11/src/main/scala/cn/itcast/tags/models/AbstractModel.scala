@@ -18,7 +18,7 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
    *  1. 初始化：构建SparkSession实例对象
    */
   def init(isHive: Boolean): Unit = {
-    spark = SparkUtils.createSparkSession(this.getClass)
+    spark = SparkUtils.createSparkSession(this.getClass, isHive)
   }
 
   /**
@@ -86,6 +86,16 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
    * @param businessDF 需要进行处理的业务数据
    * @param tagDF      标签数据，其中包含4级与5级标签的name与rule
    * @return 打完标签的数据
+   *
+   *         tagDF数据Schema
+   *
+   *         标签id  ->  id: long (nullable = false)
+   *
+   *         标签名称  ->  name: string (nullable = true)
+   *
+   *         标签规则  ->  rule: string (nullable = true)
+   *
+   *         标签级别  ->  level: integer (nullable = true)
    */
   def doTag(businessDF: DataFrame, tagDF: DataFrame): DataFrame
 
