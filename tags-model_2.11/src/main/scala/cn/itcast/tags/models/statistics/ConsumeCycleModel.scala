@@ -69,6 +69,7 @@ class ConsumeCycleModel extends AbstractModel("消费周期标签", ModelType.ST
     modelDF.show(1000)
 
     // 4. 返回标签数据
+//    modelDF
     null
   }
 }
