@@ -50,14 +50,17 @@ class ConsumeCycleModel extends AbstractModel("消费周期标签", ModelType.ST
       // 2.1. 分组，获取最新订单时间，并转换格式
       .groupBy($"memberid")
       .agg(
-        from_unixtime(max($"finishtime"))
-          //取多个订单中最近的一次时间转换为日期格式
+        //取多个订单中最近的一次时间转换为日期格式
+        from_unixtime(
+          //将Long类型转换日期时间类型,计算天数可以不需要时间，可以指定格式为年月日格式
+          max($"finishtime"), "yyyy-MM-dd"
+        )
           .as("finish_time")
-      )// 2.2. 计算用户最新订单距今天数
-    .select(
-      $"memberid".as("userId"),
-      datediff(current_timestamp(), $"finish_time").as("consumer_days")
-    )
+      ) // 2.2. 计算用户最新订单距今天数
+      .select(
+        $"memberid".as("userId"),
+        datediff(current_date(), $"finish_time").as("consumer_days")
+      )
 
     // 3. 关联属性标签数据和消费天数数据，加上判断条件，进行打标签
     val modelDF: DataFrame = dayDF
@@ -65,12 +68,8 @@ class ConsumeCycleModel extends AbstractModel("消费周期标签", ModelType.ST
       .where($"consumer_days".between($"start", $"end"))
       .select($"userId", $"name".as("consumercycle"))
 
-    modelDF.printSchema()
-    modelDF.show(1000)
-
     // 4. 返回标签数据
-//    modelDF
-    null
+    modelDF
   }
 }
 
