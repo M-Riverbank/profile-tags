@@ -88,8 +88,9 @@ case class HBaseRelation(
     val rowsRDD: RDD[Row] = datasRDD.map { case (_, result) =>
       // 3.1. 列的值
       val values: Seq[String] = fields.map { field =>
-        Bytes.toString(result.getValue(familyBytes,
-          Bytes.toBytes(field)))
+        Bytes.toString(
+          result.getValue(familyBytes, Bytes.toBytes(field))
+        )
       }
       // 3.2. 生成Row对象
       Row.fromSeq(values)

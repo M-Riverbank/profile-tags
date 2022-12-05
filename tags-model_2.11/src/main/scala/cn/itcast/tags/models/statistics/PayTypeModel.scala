@@ -8,8 +8,7 @@ import org.apache.spark.sql.expressions.Window
 /**
  * 标签模型开发：支付方式标签模型
  */
-class PayTypeModel extends AbstractModel("支付方式标签",
-  ModelType.STATISTICS) {
+class PayTypeModel extends AbstractModel("支付方式标签", ModelType.STATISTICS) {
   /**
    * 4. 构建标签：依据业务数据和属性标签数据建立标签
    *
