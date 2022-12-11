@@ -74,9 +74,7 @@ class PayTypeModel extends AbstractModel("支付方式标签", ModelType.STATIST
       .withColumn(
         "rnk",
         row_number().over(Window
-          //分区字段
           .partitionBy($"memberid")
-          //排序字段
           .orderBy($"count".desc)
         )
       ) //c.过滤rnk为1的数据

@@ -54,8 +54,7 @@ class ConsumeCycleModel extends AbstractModel("消费周期标签", ModelType.ST
         from_unixtime(
           //将Long类型转换日期时间类型,计算天数可以不需要时间，可以指定格式为年月日格式
           max($"finishtime"), "yyyy-MM-dd"
-        )
-          .as("finish_time")
+        ).as("finish_time")
       ) // 2.2. 计算用户最新订单距今天数
       .select(
         $"memberid".as("userId"),

@@ -67,10 +67,15 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
       //从Hbase表加载数据
       businessDF = spark.read
         .format("hbase")
+        //HBase集群地址
         .option("zkHosts", hbaseMeta.zkHosts)
+        //HBase端口号
         .option("zkPort", hbaseMeta.zkPort)
+        //读取的Hbase表名
         .option("hbaseTable", hbaseMeta.hbaseTable)
+        //读取的列簇名
         .option("family", hbaseMeta.family)
+        //读取的字段列表
         .option("selectFields", hbaseMeta.selectFieldNames)
         .load()
     } else {
@@ -109,10 +114,15 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
       modelDF.write
         .mode(SaveMode.Overwrite)
         .format("hbase")
+        //HBase集群地址
         .option("zkHosts", ModelConfig.PROFILE_TABLE_ZK_HOSTS)
+        //HBase端口号
         .option("zkPort", ModelConfig.PROFILE_TABLE_ZK_PORT)
+        //写入的HBase表名
         .option("hbaseTable", ModelConfig.PROFILE_TABLE_NAME)
+        //写入HBase表的列簇
         .option("family", ModelConfig.PROFILE_TABLE_FAMILY_USER)
+        //写入HBase表的rowKey字段
         .option("rowKeyColumn", ModelConfig.PROFILE_TABLE_ROWKEY_COL)
         .save()
   }

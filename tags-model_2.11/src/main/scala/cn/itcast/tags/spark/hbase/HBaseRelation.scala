@@ -61,7 +61,7 @@ case class HBaseRelation(
     val familyBytes = Bytes.toBytes(params(HBASE_TABLE_FAMILY))
     scan.addFamily(familyBytes)
     // c. 设置列名称
-    val fields = params(HBASE_TABLE_SELECT_FIELDS).split(SPERATOR)
+    val fields: Array[String] = params(HBASE_TABLE_SELECT_FIELDS).split(SPERATOR)
     fields.foreach { field =>
       scan.addColumn(familyBytes, Bytes.toBytes(field))
     }

@@ -8,5 +8,64 @@
       <jdbc-url>jdbc:mysql://bigdata-cdh01.itcast.cn:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="oozie-derby/OpenJPA" uuid="f1dd6d4b-d0fc-4e47-b2e2-4b1d87993639">
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>OpenJPA
+
+C:/Users/han/.m2/repository/org/apache/oozie/oozie-core/4.1.0-cdh5.14.0/oozie-core-4.1.0-cdh5.14.0.jar!/META-INF/persistence.xml</remarks>
+      <jdbc-driver>org.apache.oozie.util.db.BasicDataSourceWrapper</jdbc-driver>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="oozie-postgresql/OpenJPA" uuid="7944a639-c26a-4f27-9d09-1812dc95eb7a">
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <configured-by-url>true</configured-by-url>
+      <remarks>OpenJPA
+
+C:/Users/han/.m2/repository/org/apache/oozie/oozie-core/4.1.0-cdh5.14.0/oozie-core-4.1.0-cdh5.14.0.jar!/META-INF/persistence.xml</remarks>
+      <jdbc-driver>org.apache.oozie.util.db.BasicDataSourceWrapper</jdbc-driver>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="oozie-oracle/OpenJPA" uuid="50f98374-6515-4730-a317-fdb305f19d8a">
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <configured-by-url>true</configured-by-url>
+      <remarks>OpenJPA
+
+C:/Users/han/.m2/repository/org/apache/oozie/oozie-core/4.1.0-cdh5.14.0/oozie-core-4.1.0-cdh5.14.0.jar!/META-INF/persistence.xml</remarks>
+      <jdbc-driver>org.apache.oozie.util.db.BasicDataSourceWrapper</jdbc-driver>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="oozie-sqlserver/OpenJPA" uuid="a2b5acd7-360a-4b07-9bf7-8cbfa52fc1cc">
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <configured-by-url>true</configured-by-url>
+      <remarks>OpenJPA
+
+C:/Users/han/.m2/repository/org/apache/oozie/oozie-core/4.1.0-cdh5.14.0/oozie-core-4.1.0-cdh5.14.0.jar!/META-INF/persistence.xml</remarks>
+      <jdbc-driver>org.apache.oozie.util.db.BasicDataSourceWrapper</jdbc-driver>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="oozie-hsqldb/OpenJPA" uuid="c9eb1e81-2b29-4554-b8c1-235815d0511a">
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <configured-by-url>true</configured-by-url>
+      <remarks>OpenJPA
+
+C:/Users/han/.m2/repository/org/apache/oozie/oozie-core/4.1.0-cdh5.14.0/oozie-core-4.1.0-cdh5.14.0.jar!/META-INF/persistence.xml</remarks>
+      <jdbc-driver>org.apache.oozie.util.db.BasicDataSourceWrapper</jdbc-driver>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="oozie-mysql/OpenJPA" uuid="825a9fa8-d7c0-4c75-b369-469e830c1867">
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <configured-by-url>true</configured-by-url>
+      <remarks>OpenJPA
+
+C:/Users/han/.m2/repository/org/apache/oozie/oozie-core/4.1.0-cdh5.14.0/oozie-core-4.1.0-cdh5.14.0.jar!/META-INF/persistence.xml</remarks>
+      <jdbc-driver>org.apache.oozie.util.db.BasicDataSourceWrapper</jdbc-driver>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
