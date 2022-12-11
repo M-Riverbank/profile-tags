@@ -77,6 +77,8 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
         .option("family", hbaseMeta.family)
         //读取的字段列表
         .option("selectFields", hbaseMeta.selectFieldNames)
+        //过滤规则
+        .option("filterConditions",hbaseMeta.whereCondition)
         .load()
     } else {
       new RuntimeException("业务标签未提供数据源信息，获取不到业务数据，无法计算标签")

@@ -1,8 +1,9 @@
-package cn.itcast.tags.spark.hbase
+package cn.itcast.tags.spark.sql
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.{Put, Result, Scan}
+import org.apache.hadoop.hbase.filter.{FilterList, SingleColumnValueFilter}
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.{TableInputFormat, TableOutputFormat}
 import org.apache.hadoop.hbase.protobuf.ProtobufUtil
@@ -38,6 +39,8 @@ case class HBaseRelation(
   val SPERATOR: String = ","
   val HBASE_TABLE_SELECT_FIELDS: String = "selectFields"
   val HBASE_TABLE_ROWKEY_NAME: String = "rowKeyColumn"
+  // filterConditions：modified[GE]20190601,modified[LE]20191201
+  val HBASE_TABLE_FILTER_CONDITIONS: String = "filterConditions"
 
   /**
    * sparkSQL加载与保存数据入口,相当于SparkSession
@@ -55,16 +58,46 @@ case class HBaseRelation(
   override def buildScan(): RDD[Row] = {
     // 1. 设置HBase配置信息
     val conf: Configuration = new Configuration()
-    // a. 设置读取列簇和列名称
+    // a. 创建scan对象过滤读取的字段
     val scan: Scan = new Scan()
-    // b. 设置列簇
+    // b. 设置读取的列簇
     val familyBytes = Bytes.toBytes(params(HBASE_TABLE_FAMILY))
     scan.addFamily(familyBytes)
-    // c. 设置列名称
+    // c. 设置读取的列名称
     val fields: Array[String] = params(HBASE_TABLE_SELECT_FIELDS).split(SPERATOR)
     fields.foreach { field =>
       scan.addColumn(familyBytes, Bytes.toBytes(field))
     }
+    //===========================此处设置 Hbase Filter 过滤器===========================
+    //a.从option参数中获取过滤条件的值，可能没有设置，给以null
+    val filterConditions: String = params.getOrElse(HBASE_TABLE_FILTER_CONDITIONS, null)
+    //b.判断过滤条件是否有值,如果有值再创建过滤器进行过滤数据
+    val filterList: FilterList = new FilterList()
+    if (filterConditions != null) {
+      //modified[lt]2019-09-01,modified[gt]2019-06-01
+      filterConditions
+        //多个过滤条件使用逗号分隔
+        .split(",")
+        //将每个过滤条件构建成 SingleColumnValueFilter 对象
+        .foreach { filterCondition =>
+          //modified[gt]2019-06-01创建Filter对象
+          //step1.解析过滤条件,封装至样例类中
+          val condition: Condition = Condition.parseCondition(filterCondition)
+          //step2.
+          val filter: SingleColumnValueFilter = new SingleColumnValueFilter(
+            familyBytes, //列簇
+            Bytes.toBytes(condition.field), //字段
+            condition.compare, //规则
+            Bytes.toBytes(condition.value) //值
+          )
+          //step3.将filter加入列表
+          filterList.addFilter(filter)
+          //step4.TODO: 必须获取过滤列的值
+          scan.addColumn(familyBytes, Bytes.toBytes(condition.field))
+        }
+      scan.setFilter(filterList)
+    }
+
     conf.set(HBASE_ZK_QUORUM_KEY, params(HBASE_ZK_QUORUM_VALUE)) //zookeeper集群地址
     conf.set(HBASE_ZK_PORT_KEY, params(HBASE_ZK_PORT_VALUE)) //zookeeper端口
     conf.set(TableInputFormat.INPUT_TABLE, params(HBASE_TABLE)) //读HBase表的名称

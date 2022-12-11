@@ -1,4 +1,4 @@
-package cn.itcast.tags.spark.hbase
+package cn.itcast.tags.spark.sql
 
 import org.apache.spark.sql.sources._
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
