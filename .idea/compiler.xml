@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="tags-model_2.11" />
         <module name="tags-web" />
+        <module name="tags-ml_2.11" />
         <module name="tags-etl" />
         <module name="tags-up_2.11" />
         <module name="tags-oozie" />

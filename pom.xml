@@ -15,6 +15,7 @@
         <module>tags-model_2.11</module>
         <module>tags-up</module>
         <module>tags-web</module>
+        <module>tags-ml</module>
     </modules>
 
 </project>

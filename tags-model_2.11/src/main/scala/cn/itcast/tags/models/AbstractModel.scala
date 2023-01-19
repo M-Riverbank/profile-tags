@@ -130,7 +130,7 @@ abstract class AbstractModel(modelName: String, modelType: ModelType) extends Lo
   }
 
   /**
-   * 6. 关闭资源：应用结束，关闭会话实例对象
+   * 6. 关闭资源:应用结束,关闭会话实例对象
    */
   def close(): Unit = {
     if (spark != null) spark.stop()
